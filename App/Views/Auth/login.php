@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../../Public/style.css">
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
@@ -46,13 +46,7 @@
       <input type="radio" name="mode" id="mode-login" class="mode-toggle" checked>
       <input type="radio" name="mode" id="mode-register" class="mode-toggle">
 
-      <div class="form-panel-inner">
-
-        <nav class="tabs">
-          <label for="mode-login" class="tab tab-login">Sign in</label>
-          <label for="mode-register" class="tab tab-register">Register</label>
-          <span class="tab-indicator" aria-hidden="true"></span>
-        </nav>
+      <div class="form-panel-inner">        
 
         <!-- LOGIN -->
         <section class="pane pane-login">
@@ -82,7 +76,7 @@
               <a href="#" class="link-muted">Forgot password?</a>
             </div>
 
-            <button type="submit" class="btn-primary">Sign in</button>
+            <button type="submit" class="btn-primary" name = "sub">Sign in</button>
           </form>
 
           <div class="divider"><span>or continue with</span></div>
@@ -97,45 +91,8 @@
               Facebook
             </button>
           </div>
-        </section>
-
-        <!-- REGISTER -->
-        <section class="pane pane-register">
-          <h2>Create your account</h2>
-          <p class="pane-sub">Join as a buyer or seller in under a minute.</p>
-
-          <form action="#" method="post">
-            <div class="field">
-              <label for="reg-name">Full name</label>
-              <input type="text" id="reg-name" name="name" placeholder="Jane Doe" required>
-            </div>
-
-            <div class="field">
-              <label for="reg-email">Email address</label>
-              <input type="email" id="reg-email" name="email" placeholder="you@example.com" required>
-            </div>
-
-            <div class="field">
-              <label for="reg-password">Password</label>
-              <input type="password" id="reg-password" name="password" placeholder="Create a password" required>
-            </div>
-
-            <div class="field">
-              <label for="reg-role">I am a</label>
-              <select id="reg-role" name="role">
-                <option value="buyer">Buyer</option>
-                <option value="seller">Seller</option>
-              </select>
-            </div>
-
-            <label class="checkbox checkbox-terms">
-              <input type="checkbox" name="terms" required>
-              <span>I agree to the Terms of Service and Privacy Policy</span>
-            </label>
-
-            <button type="submit" class="btn-primary">Create account</button>
-          </form>
-        </section>
+        </section>        
+        
 
         <p class="switch-line switch-line-login">
           Don't have an account? <label for="mode-register">Register</label>

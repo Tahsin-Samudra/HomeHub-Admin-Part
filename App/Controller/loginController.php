@@ -1,68 +1,63 @@
 <?php
 
-class loginController
-{
-    private $user;
+session_start();
 
+require_once __DIR__ . '/../../Config/Database.php';
 
-    public function __construct($connection)
-    {
-        $this->user = new admin($connection);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
+
+    // Database connection
+    $db = new Database();
+    $con = $db->connect();
+
+    // Find user by email
+    $query = "SELECT * FROM admintable WHERE Email = ?";
+
+    $stmt = mysqli_prepare($con, $query);
+
+    if (!$stmt) {
+        die("Query preparation failed: " . mysqli_error($con));
     }
 
-    public function showLogin()
-    {
-        require_once "../app/views/auth/login.php";
-    }
+    mysqli_stmt_bind_param($stmt, "s", $email);
 
-    public function login()
-    {
+    mysqli_stmt_execute($stmt);
 
-        $email = trim($_POST['email'] ?? '');
+    $result = mysqli_stmt_get_result($stmt);
 
-        $password = $_POST['password'] ?? '';
+    // Check if user exists
+    if (mysqli_num_rows($result) === 1) {
 
+        $user = mysqli_fetch_assoc($result);
 
-        if ($email === '' || $password === '') {
+        // Your database currently stores plain-text passwords
+        if ($password === $user['Password']) {
 
-            $error = "Email and password are required.";
+            // Store user information in session
+            $_SESSION['user_email'] = $user['Email'];
+            $_SESSION['user_name'] = $user['Name'];
+            $_SESSION['user_phone'] = $user['PhoneNumber'];
+            $_SESSION['user_address'] = $user['Address'];
 
-            require_once "../app/views/auth/login.php";
-
-            return;
-        }
-
-
-        $user = $this->user->findByEmail($email);
-
-
-        if (
-            $user &&
-            password_verify($password, $user['password'])
-        ) {
-
-            session_start();
-
-            $_SESSION['user_id'] = $user['id'];
-
-            $_SESSION['user_name'] = $user['name'];
-
-            $_SESSION['user_email'] = $user['email'];
-
-
+            // Login successful
             header("Location: ../Views/dashboard.php");
+            exit();
 
         } else {
 
-            $error = "Invalid email or password.";
-            header("Location: ../Views/dashboard.php");
-
-            require_once "../app/views/auth/login.php";
-
+            // Wrong password
+            header("Location: ../Views/Auth/login.php?error=Invalid password");
+            exit();
         }
 
+    } else {
+
+        // Email doesn't exist
+        header("Location: ../Views/Auth/login.php?error=User not found");
+        exit();
     }
-
 }
-
 ?>

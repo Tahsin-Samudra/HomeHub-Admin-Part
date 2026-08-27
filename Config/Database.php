@@ -20,6 +20,8 @@ class Database
         if (!$this->con) {
             die("Connection failed: " . mysqli_connect_error());
         }
+
+        return $this->con;
     }
 }
 
