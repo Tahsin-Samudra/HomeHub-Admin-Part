@@ -16,28 +16,21 @@
     <!-- Visual panel -->
     <aside class="visual-panel">
       <div class="brand">
-        <span class="brand-mark">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 11.5L12 4l9 7.5" stroke="#F7F5F1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.5 10v9.5a1 1 0 0 0 1 1H17.5a1 1 0 0 0 1-1V10" stroke="#F7F5F1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10 20.5v-6h4v6" stroke="#F7F5F1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <img src="../../../homeEvening.jpg" alt="a home at night">                    
+      </div>
+
+        <div class="visual-copy">
+          <p class="eyebrow">Property management, simplified</p>
+          <h1>A key<br>for every<br>address.</h1>
+          <p class="sub">List, browse, and close on properties in one place — built for buyers, sellers, and admins alike.</p>
+        </div>
+
+        <div class="key-mark" aria-hidden="true">
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="100" r="34" stroke="#F7F5F1" stroke-width="1.2" opacity="0.35"/>
+            <path d="M92 100h96M150 100v26M170 100v18" stroke="#F7F5F1" stroke-width="1.2" opacity="0.35"/>
           </svg>
-        </span>
-        HomeHub
-      </div>
-
-      <div class="visual-copy">
-        <p class="eyebrow">Property management, simplified</p>
-        <h1>A key<br>for every<br>address.</h1>
-        <p class="sub">List, browse, and close on properties in one place — built for buyers, sellers, and admins alike.</p>
-      </div>
-
-      <div class="key-mark" aria-hidden="true">
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="60" cy="100" r="34" stroke="#F7F5F1" stroke-width="1.2" opacity="0.35"/>
-          <path d="M92 100h96M150 100v26M170 100v18" stroke="#F7F5F1" stroke-width="1.2" opacity="0.35"/>
-        </svg>
-      </div>
+        </div>
     </aside>
 
     <!-- Form panel -->
