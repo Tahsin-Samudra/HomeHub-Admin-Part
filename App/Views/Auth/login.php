@@ -15,22 +15,16 @@
 
     <!-- Visual panel -->
     <aside class="visual-panel">
-      <div class="brand">
-          <img src="../../../homeEvening.jpg" alt="a home at night">                    
+      <img src="../../../homeEvening2-img.jpg" alt="a home at night" class="visual-panel-img" >
+      <div class="visual-panel-overlay"></div>
+
+      <div class="visual-copy">
+        <p class="eyebrow">Property management, simplified</p>
+        <h1>A key for every<br>address.</h1>
+        <p class="sub">List, browse, and close on properties in one place — built for buyers, sellers, and admins alike.</p>
       </div>
 
-        <div class="visual-copy">
-          <p class="eyebrow">Property management, simplified</p>
-          <h1>A key<br>for every<br>address.</h1>
-          <p class="sub">List, browse, and close on properties in one place — built for buyers, sellers, and admins alike.</p>
-        </div>
-
-        <div class="key-mark" aria-hidden="true">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="60" cy="100" r="34" stroke="#F7F5F1" stroke-width="1.2" opacity="0.35"/>
-            <path d="M92 100h96M150 100v26M170 100v18" stroke="#F7F5F1" stroke-width="1.2" opacity="0.35"/>
-          </svg>
-        </div>
+      
     </aside>
 
     <!-- Form panel -->

@@ -27,20 +27,10 @@ html, body {
 .auth-shell {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;   /* THE FIX: forces the row to fill min-height instead of shrinking to content */
   min-height: 100vh;
 }
 
-/* ---------- Visual panel ---------- */
-.visual-panel {
-  position: relative;
-  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
-  color: var(--cream);
-  padding: 48px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-}
 
 .brand {
   display: flex;
@@ -63,35 +53,18 @@ html, body {
   justify-content: center;
 }
 
-.visual-copy {
-  z-index: 2;
-  max-width: 420px;
-}
 
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 11px;
-  color: var(--gold-soft);
+  font-size: 17px;
+  /* color: var(--gold-soft); */
+  color :#D9B98A;
   margin: 0 0 18px;
   font-weight: 600;
 }
 
-.visual-copy h1 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 52px;
-  line-height: 1.05;
-  margin: 0 0 20px;
-}
 
-.visual-copy .sub {
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(247, 245, 241, 0.7);
-  margin: 0;
-  max-width: 360px;
-}
 
 .key-mark {
   position: absolute;
@@ -338,4 +311,39 @@ select:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+}
+
+
+.visual-panel {
+   position: relative;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 40px;   
+}
+
+.visual-panel-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.visual-panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,20,35,0.55) 0%, rgba(10,20,35,0.35) 40%, rgba(10,20,35,0.85) 100%);
+  z-index: 1;
+}
+
+.visual-copy,
+.key-mark {
+  color: #fff;
+  position: relative;
+  z-index: 2;
 }
