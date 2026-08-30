@@ -55,6 +55,13 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
                 type="button"
                 data-target="panel-message">
                 All Users
+            </button>            
+
+            <button
+                class="nav-item"
+                type="button"
+                data-target="panel-add_admin">
+                Add Admin
             </button>
 
         </nav>
@@ -71,26 +78,18 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
 
             <button class="icon-btn" type="button" aria-label="Notifications">
                 <img
-                    src=""
+                    src="../../notificationBell-icon.png"
                     alt=""
-                    height="18"
-                    width="18">
+                    height="22"
+                    width="34">
             </button>
 
-            <button class="icon-btn" type="button" aria-label="Settings">
+            <div class="icon-btn" type = "button" aria-label="User profile">
                 <img
-                    src=""
-                    alt=""
-                    height="20"
-                    width="20">
-            </button>
-
-            <div class="avatar">
-                <img
-                    src=""
+                    src="../../profileimage-icon.png"
                     alt="User profile"
-                    height="20"
-                    width="20">
+                    height="25"
+                    width="30">
             </div>
 
         </div>
@@ -104,12 +103,7 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
 
         <section
             class="dashboard__panel"
-            id="panel-dashboard">
-
-            <div>
-                Dang! You have successfully logged in.
-                Welcome to the dashboard.
-            </div>
+            id="panel-dashboard">            
 
         </section>
 
@@ -223,6 +217,15 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
         <section
             class="dashboard__panel"
             id="panel-message"
+            hidden>
+
+            <!-- All Users content -->
+
+        </section>
+        
+        <section
+            class="dashboard__panel"
+            id="panel-add_admin"
             hidden>
 
             <!-- All Users content -->
