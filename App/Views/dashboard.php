@@ -57,12 +57,15 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
                 All Users
             </button>            
 
-            <button
-                class="nav-item"
-                type="button"
-                data-target="panel-add_admin">
-                Add Admin
-            </button>
+            <a href="../Controller/adminRegController.php" target="#">
+                <button
+                    class="nav-item"
+                    type="button"
+                    data-target="panel-add_admin">
+                    Add Admin
+                </button>
+            </a>
+            
 
         </nav>
 
@@ -223,14 +226,7 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
 
         </section>
         
-        <section
-            class="dashboard__panel"
-            id="panel-add_admin"
-            hidden>
-
-            <!-- All Users content -->
-
-        </section>
+        
 
     </main>
 
