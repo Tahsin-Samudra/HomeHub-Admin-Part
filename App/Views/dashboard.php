@@ -1,6 +1,7 @@
 <?php
 
-include(__DIR__ . "/Auth/fetchAllAdmin.php");
+include(__DIR__ . "/Auth/fetchAllUserType.php");
+
 
 ?>
 
@@ -53,23 +54,24 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
             <button
                 class="nav-item"
                 type="button"
-                data-target="panel-message">
+                data-target="panel-users">
                 All Users
             </button>            
 
-            <a href="../Controller/adminRegController.php" target="#">
-                <button
-                    class="nav-item"
-                    type="button"
-                    data-target="panel-add_admin">
-                    Add Admin
-                </button>
-            </a>
+            
+            <button
+                class="nav-item"
+                type="button"
+                data-target="panel-approval">
+                Approval
+            </button>
+            
             
 
         </nav>
 
-        <div class="navbar__actions">
+        <div class="navbar__actions">            
+
 
             <button class="icon-btn" type="button" aria-label="Search">
                 <img
@@ -87,12 +89,31 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
                     width="34">
             </button>
 
-            <div class="icon-btn" type = "button" aria-label="User profile">
-                <img
-                    src="../../profileimage-icon.png"
-                    alt="User profile"
-                    height="25"
-                    width="30">
+            <div class="profile-dropdown" id="profileDropdown">
+
+                <button
+                    class="icon-btn"
+                    type="button"
+                    id="profileBtn"
+                    aria-label="User profile"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    <img
+                        src="../../profileimage-icon.png"
+                        alt="User profile"
+                        height="25"
+                        width="30">
+                </button>
+
+                <div class="dropdown-menu" id="profileMenu">
+                    <a href="../Controller/adminRegController.php" target="#" class = "dropdown-item">                        
+                        <label for="">Add Admin</label> 
+                    </a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="../Controller/logoutController.php" class="dropdown-item logout">Logout</a>
+                </div>
+
             </div>
 
         </div>
@@ -111,14 +132,76 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
         </section>
 
 
-        <!-- Properties Panel -->
+        <!-- Properties Panel -->        
 
         <section
             class="dashboard__panel"
             id="panel-properties"
             hidden>
 
-            <!-- All Properties content -->
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Properties</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="property-grid">
+
+                        <?php
+                        
+                        $properties = getAll('properties');
+
+                        if ($properties && mysqli_num_rows($properties) > 0) {
+
+                            while ($property = mysqli_fetch_assoc($properties)) {
+                                ?>
+
+                                <div class="property-card">
+
+                                    <img
+                                        src="<?= htmlspecialchars($property['image'] ?? '../../placeholder-property.png') ?>.jpg"
+                                        alt="<?= htmlspecialchars($property['Title'] ?? 'Property') ?>">
+
+                                    <div class="property-card__body">
+
+                                        <h4><?= htmlspecialchars($property['property_title'] ?? '') ?></h4>
+
+                                        <p class="property-card__address">
+                                            <?= htmlspecialchars($property['location'] ?? '') ?>
+                                        </p>
+
+                                        <p class="property-card__price">
+                                            <?= htmlspecialchars($property['price'] ?? '') ?> BDT
+                                        </p>
+
+                                        <span class="status-badge status-badge--<?= strtolower(htmlspecialchars($property['approval_status'] ?? 'pending')) ?>">
+                                            <?= htmlspecialchars($property['approval_status'] ?? 'Pending') ?>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <?php
+                            }
+
+                        } else {
+                            ?>
+
+                            <p>No properties found.</p>
+
+                            <?php
+                        }
+
+                        ?>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </section>
 
@@ -225,8 +308,146 @@ include(__DIR__ . "/Auth/fetchAllAdmin.php");
             <!-- All Users content -->
 
         </section>
+
+        <section
+            class="dashboard__panel"
+            id="panel-users"
+            hidden>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Users</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered">
+
+                        <thead>
+
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Phone Number</th>
+                                <th>Address</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <?php
+
+                            $users = getAll('login');
+
+                            if ($users && mysqli_num_rows($users) > 0) {
+
+                                while ($user = mysqli_fetch_assoc($users)) {
+                                    ?>
+
+                                    <tr>
+
+                                        <td>
+                                            <?= htmlspecialchars($user['name'] ?? '') ?>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars($user['age'] ?? '') ?>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars($user['gmail'] ?? '') ?>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars($user['gender'] ?? '') ?>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars($user['type'] ?? '') ?>
+                                        </td>
+
+                                    </tr>
+
+                                    <?php
+                                }
+
+                            } else {
+                                ?>
+
+                                <tr>
+                                    <td colspan="5">
+                                        No users found.
+                                    </td>
+                                </tr>
+
+                                <?php
+                            }
+
+                            ?>
+
+                        </tbody>
+
+                    </table>
+
+            </div>                        
+
+        </section>
         
-        
+        <!-- Approval Panel -->
+
+        <section class="dashboard__panel" id="panel-approval" hidden>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Pending Approvals</h3>
+                </div>
+
+                <div class="card-body">
+                    <div class="property-grid">
+
+                        <?php
+                        // getAll('propertytable') এর বদলে filtered query লাগবে
+                        $pendingProperties = getWhere('properties', 'approval_status', 'Pending');
+
+                        if ($pendingProperties && mysqli_num_rows($pendingProperties) > 0) {
+                            while ($property = mysqli_fetch_assoc($pendingProperties)) {
+                                ?>
+                                <div class="property-card">
+
+                                    <img src="<?= htmlspecialchars($property['image']) ?>.jpg" alt="Property">
+
+                                    <div class="property-card__body">
+                                        <p class="property-card__address">
+                                            <?= htmlspecialchars($property['description']) ?>
+                                        </p>
+                                        <p class="property-card__price">
+                                            <?= htmlspecialchars($property['property_size']) ?> sqft
+                                        </p>
+
+                                        <form method="POST" action="../Controller/propertyApprovalController.php" class="approval-actions">
+                                            <input type="hidden" name="property_id" value="<?= htmlspecialchars($property['property_id']) ?>">
+                                            <button type="submit" name="action" value="approve" class="btn-approve">Approve</button>
+                                            <button type="submit" name="action" value="reject" class="btn-reject">Reject</button>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                            <p>No pending properties.</p>
+                            <?php
+                        }
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
 
     </main>
 
@@ -262,6 +483,44 @@ navItems.forEach((item) => {
 
     });
 
+});
+
+const urlParams = new URLSearchParams(window.location.search);
+const panelFromUrl = urlParams.get('panel');
+
+if (panelFromUrl) {
+    navItems.forEach((item) => {
+        if (item.dataset.target === panelFromUrl) {
+            item.click();
+        }
+    });
+}
+
+
+// Profile dropdown
+
+const profileWrapper = document.getElementById('profileDropdown');
+const profileBtn = document.getElementById('profileBtn');
+const profileMenu = document.getElementById('profileMenu');
+
+profileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = profileMenu.classList.toggle('show');
+    profileBtn.setAttribute('aria-expanded', isOpen);
+});
+
+document.addEventListener('click', (e) => {
+    if (!profileWrapper.contains(e.target)) {
+        profileMenu.classList.remove('show');
+        profileBtn.setAttribute('aria-expanded', 'false');
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        profileMenu.classList.remove('show');
+        profileBtn.setAttribute('aria-expanded', 'false');
+    }
 });
 
 </script>

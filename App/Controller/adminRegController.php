@@ -11,22 +11,6 @@ $phone = "";
 $address = "";
 
 
-function emailExists($email)
-{
-    $db = new Database();
-    $con = $db->connect();
-
-    $query = "SELECT Email FROM admintable WHERE Email = ?";
-
-    $stmt = mysqli_prepare($con, $query);
-    mysqli_stmt_bind_param($stmt, "s", $email);
-    mysqli_stmt_execute($stmt);
-
-    $result = mysqli_stmt_get_result($stmt);
-
-    return mysqli_num_rows($result) > 0;
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // ==========================
@@ -189,11 +173,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             mysqli_stmt_bind_param(
                 $stmt,
-                "sssss",
-                $name,
+                "sssss",                
                 $email,
-                $phone,
                 $hashedPassword,
+                $name,
+                $phone,                
                 $address
             );
 
@@ -221,6 +205,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 
+}
+
+function emailExists($email)
+{
+    $db = new Database();
+    $con = $db->connect();
+
+    $query = "SELECT Email FROM admintable WHERE Email = ?";
+
+    $stmt = mysqli_prepare($con, $query);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    return mysqli_num_rows($result) > 0;
 }
 
 ?>

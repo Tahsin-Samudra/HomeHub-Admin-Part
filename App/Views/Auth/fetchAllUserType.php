@@ -30,6 +30,14 @@ function getAll($table)
     return $result;
 }
 
+function getWhere($table, $column, $value) {
+    global $con; 
+
+    $stmt = mysqli_prepare($con, "SELECT * FROM $table WHERE $column = ?");
+    mysqli_stmt_bind_param($stmt, "s", $value);
+    mysqli_stmt_execute($stmt);
+    return mysqli_stmt_get_result($stmt);
+}
 
 function redirect($url, $message)
 {
