@@ -1,7 +1,11 @@
 <?php
 
-include(__DIR__ . "/Auth/fetchAllUserType.php");
+include(__DIR__ . "/Auth/fetcher.php");
 
+
+$totalApproved = mysqli_num_rows(getWhere('properties', 'approval_status', 'Approved'));
+$totalPending = mysqli_num_rows(getWhere('properties', 'approval_status', 'Pending'));
+$totalRejected = mysqli_num_rows(getWhere('properties', 'approval_status', 'Rejected'));
 
 ?>
 
@@ -15,6 +19,7 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
     <title>Dashboard</title>
 
     <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -111,7 +116,7 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
                     </a>
                     <a href="#" class="dropdown-item">Settings</a>
                     <div class="dropdown-divider"></div>
-                    <a href="../Controller/logoutController.php" class="dropdown-item logout">Logout</a>
+                    <a href="./Auth/login.php" class="dropdown-item logout">Logout</a>
                 </div>
 
             </div>
@@ -127,7 +132,73 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
 
         <section
             class="dashboard__panel"
-            id="panel-dashboard">            
+            id="panel-dashboard">             
+            
+            <div class ="card-body">
+                <br> <br> <br>
+                <div class = "property-grid">
+                    <div class = "property-card">          
+                        <div class = "property-card__body">
+                            <h4>Total Properties :</h4> <br> 
+                            <?= mysqli_num_rows(getAll('properties')) ?>    
+                        </div>                                                   
+                    </div>
+
+                    <div class="property-card">
+                        <div class = "property-card__body">
+                            <h4>Total Users :</h4> <br> 
+                            <?= mysqli_num_rows(getAll('login')) ?>    
+                        </div>   
+                    </div>
+
+                    <div class="property-card">
+                        <div class = "property-card__body">
+                            <h4>Total Admins :</h4> <br> 
+                            <?= mysqli_num_rows(getAll('admintable')) ?>    
+                        </div>   
+                    </div>
+
+                    <div class="property-card">
+                        <div class = "property-card__body">
+                            <h4>Total Approved :</h4> <br> 
+                            <?= mysqli_num_rows(getApprovedProperties('properties')) ?>    
+                        </div>   
+                    </div>
+
+                    <div class="property-card">
+                        <div class = "property-card__body-bigCard">
+                            <h4>Total Pending :</h4> <br> 
+                            <?= mysqli_num_rows(getWhere('properties', 'approval_status', 'Pending')) ?>
+                        </div>   
+                    </div>
+
+                    <div class="property-card">
+                        <div class = "property-card__body-bigCard">
+                            <h4>Total Rejected :</h4> <br> 
+                            <?= mysqli_num_rows(getWhere('properties', 'approval_status', 'Rejected')) ?>   
+                        </div>   
+                    </div>
+
+                    <div class="property-card">
+                        <div class="property-card__body">
+
+                            <div class="chart-container" style="max-width: 400px; margin-top: 30px;">
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="property-card">
+                        <div class="property-card__body">
+
+                            <div class="chart-container" style="max-width: 400px; margin-top: 30px;">
+                                <canvas id="statusChartBar"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
         </section>
 
@@ -162,7 +233,7 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
 
                                     <img
                                         src="<?= htmlspecialchars($property['image'] ?? '../../placeholder-property.png') ?>.jpg"
-                                        alt="<?= htmlspecialchars($property['Title'] ?? 'Property') ?>">
+                                        alt="<?= htmlspecialchars($property['Title'] ?? 'Property') ?>" loading="lazy">
 
                                     <div class="property-card__body">
 
@@ -231,6 +302,7 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
                                 <th>Password</th>
                                 <th>Phone Number</th>
                                 <th>Address</th>
+                                <th>Action</th>
                             </tr>
 
                         </thead>
@@ -268,6 +340,15 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
                                             <?= htmlspecialchars($admin['Address'] ?? '') ?>
                                         </td>
 
+                                        <td>
+                                            <a href="editAdmin.php?email=<?= urlencode($admin['Email']) ?>" class="btn-edit">Edit</a>
+                                            <br> <br>
+                                            <form method="POST" action="../Controller/deleteAdminController.php" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this admin?');">
+                                                <input type="hidden" name="email" value="<?= htmlspecialchars($admin['Email']) ?>">
+                                                <button type="submit" class="btn-delete">Delete</button>
+                                            </form>
+                                        </td>
+
                                     </tr>
 
                                     <?php
@@ -277,7 +358,7 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
                                 ?>
 
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         No admins found.
                                     </td>
                                 </tr>
@@ -407,7 +488,7 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
                     <div class="property-grid">
 
                         <?php
-                        // getAll('propertytable') এর বদলে filtered query লাগবে
+                        
                         $pendingProperties = getWhere('properties', 'approval_status', 'Pending');
 
                         if ($pendingProperties && mysqli_num_rows($pendingProperties) > 0) {
@@ -422,7 +503,7 @@ include(__DIR__ . "/Auth/fetchAllUserType.php");
                                             <?= htmlspecialchars($property['description']) ?>
                                         </p>
                                         <p class="property-card__price">
-                                            <?= htmlspecialchars($property['property_size']) ?> sqft
+                                            <?= htmlspecialchars($property['price']) ?> sqft
                                         </p>
 
                                         <form method="POST" action="../Controller/propertyApprovalController.php" class="approval-actions">
@@ -520,6 +601,63 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         profileMenu.classList.remove('show');
         profileBtn.setAttribute('aria-expanded', 'false');
+    }
+});
+
+const statusData = {
+    approved: <?= $totalApproved ?? 0 ?>,
+    pending: <?= $totalPending ?? 0 ?>,
+    rejected: <?= $totalRejected ?? 0 ?>
+};
+
+const ctx = document.getElementById('statusChart');
+
+new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Approved', 'Pending', 'Rejected'],
+        datasets: [{
+            data: [statusData.approved, statusData.pending, statusData.rejected],
+            backgroundColor: ['#4caf50', '#ffc107', '#f44336']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+const barCtx = document.getElementById('statusChartBar');
+
+new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Approved', 'Pending', 'Rejected'],
+        datasets: [{
+            label: 'Properties',
+            data: [statusData.approved, statusData.pending, statusData.rejected],
+            backgroundColor: ['#4caf50', '#ffc107', '#f44336']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false // bar chart এ legend সাধারণত দরকার হয় না, x-axis এ label already আছে
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1 // whole number এ count দেখাবে (0, 1, 2... — decimal না)
+                }
+            }
+        }
     }
 });
 

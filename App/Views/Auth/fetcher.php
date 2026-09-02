@@ -1,7 +1,5 @@
 <?php
 
-// Database.php is:
-// HomeHub/Config/Database.php
 
 include(__DIR__ . "/../../../Config/Database.php");
 
@@ -16,6 +14,25 @@ function getAll($table)
     global $con;
 
     $query = "SELECT * FROM $table";
+
+    $stmt = mysqli_prepare($con, $query);
+
+    if (!$stmt) {
+        return false;
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    return $result;
+}
+
+function getApprovedProperties($table)
+{
+    global $con;
+
+    $query = "SELECT * FROM $table WHERE approval_status = 'Approved'";
 
     $stmt = mysqli_prepare($con, $query);
 
