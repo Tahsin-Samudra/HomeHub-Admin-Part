@@ -407,10 +407,11 @@ $totalRejected = mysqli_num_rows(getWhere('properties', 'approval_status', 'Reje
 
                             <tr>
                                 <th>Name</th>
+                                <th>Age</th>                                
                                 <th>Email</th>
-                                <th>Password</th>
-                                <th>Phone Number</th>
-                                <th>Address</th>
+                                <th>Gender</th>
+                                <th>Type</th>
+                                <th>Action</th>
                             </tr>
 
                         </thead>
@@ -447,6 +448,14 @@ $totalRejected = mysqli_num_rows(getWhere('properties', 'approval_status', 'Reje
                                         <td>
                                             <?= htmlspecialchars($user['type'] ?? '') ?>
                                         </td>
+                                        <td>
+                                            <a href="editUser.php?email=<?= urlencode($user['gmail']) ?>" class="btn-edit">Edit</a>
+
+                                            <form method="POST" action="../Controller/deleteUserController.php" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                <input type="hidden" name="email" value="<?= htmlspecialchars($user['gmail']) ?>">
+                                                <button type="submit" class="btn-delete">Delete</button>
+                                            </form>
+                                        </td>
 
                                     </tr>
 
@@ -457,7 +466,7 @@ $totalRejected = mysqli_num_rows(getWhere('properties', 'approval_status', 'Reje
                                 ?>
 
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         No users found.
                                     </td>
                                 </tr>
@@ -618,7 +627,7 @@ new Chart(ctx, {
         labels: ['Approved', 'Pending', 'Rejected'],
         datasets: [{
             data: [statusData.approved, statusData.pending, statusData.rejected],
-            backgroundColor: ['#4caf50', '#ffc107', '#f44336']
+            backgroundColor: ['#4caf50', '#f0da99', '#e98c86']
         }]
     },
     options: {
@@ -640,7 +649,7 @@ new Chart(barCtx, {
         datasets: [{
             label: 'Properties',
             data: [statusData.approved, statusData.pending, statusData.rejected],
-            backgroundColor: ['#4caf50', '#ffc107', '#f44336']
+            backgroundColor: ['#4caf50', '#f0da99', '#e98c86']
         }]
     },
     options: {

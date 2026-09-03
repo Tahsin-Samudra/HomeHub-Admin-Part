@@ -1,0 +1,75 @@
+/* welcome.css */
+
+.welcome-section {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    overflow: hidden;
+    background: #f9f6f1;
+}
+
+.welcome-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.45;
+    z-index: 0;
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+}
+
+.welcome-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+}
+
+.welcome-subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 32px;
+}
+
+.welcome-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+
+.btn-primary {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #fff;
+    color: #1a1a1a;
+    border: 1px solid #ddd;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    opacity: 0.85;
+}

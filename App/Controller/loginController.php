@@ -8,6 +8,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
+    
+    
+    if (isset($_POST['remember'])) {
+
+    setcookie('remembered_email', $_POST['email'], time() + (30 * 24 * 60 * 60), "/");
+    } else {
+
+        if (isset($_COOKIE['remembered_email'])) {
+            setcookie('remembered_email', '', time() - 3600, "/");
+        }
+    }
 
     
     $db = new Database();

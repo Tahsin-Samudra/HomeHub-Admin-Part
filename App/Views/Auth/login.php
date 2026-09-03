@@ -60,7 +60,7 @@
                 <input type="checkbox" name="remember">
                 <span>Remember me</span>
               </label>
-              <a href="#" class="link-muted">Forgot password?</a>
+              <a href="../forgotPassword.php" class="link-muted">Forgot password?</a>
             </div>
 
             <button type="submit" class="btn-primary" name = "sub">Sign in</button>
